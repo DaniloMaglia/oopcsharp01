@@ -1,5 +1,9 @@
 namespace ComplexAlgebra
+
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// A type for representing Complex numbers.
     /// </summary>
@@ -18,5 +22,28 @@ namespace ComplexAlgebra
     public class Complex
     {
         // TODO: fill this class\
+        public double Real { get;  }
+        public double Imaginary { get; }
+        public double Modulus { get => Math.Sqrt(Math.Pow(Real, 2) + Math.Pow(Imaginary, 2)); }
+        public double Phase { get => Math.Pow(Math.Tan(Imaginary), -1) / Real; }
+        
+        public Complex Complement { get => new Complex(Real, -Imaginary); }
+
+        public override string ToString() => $"{(Real != 0 ? Real : "")}{((Imaginary > 0) ? $"+i{(Imaginary!=1?Imaginary:"")}" : Imaginary != 0 ? $"-i{(Imaginary != -1 ? Imaginary * -1 : "")}" : "")}";
+
+        public static Complex operator +(Complex num1, Complex num2) => new Complex(num1.Real + num2.Real, num1.Imaginary + num2.Imaginary);
+        public static Complex operator -(Complex num1, Complex num2) => new Complex(num1.Real - num2.Real, num1.Imaginary - num2.Imaginary);
+     
+        public Complex(double real, double imaginary)
+        {
+            Real = real;
+            Imaginary = imaginary;
+        }
+
+        public override bool Equals(object obj) => obj is Complex complex && Real == complex.Real && Imaginary == complex.Imaginary;
+     
+
+        public override int GetHashCode() => HashCode.Combine(Real, Imaginary);
+       
     }
 }
